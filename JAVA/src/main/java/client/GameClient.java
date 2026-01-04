@@ -1,7 +1,10 @@
 package client;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 public class GameClient {
     public static void main(String[] args) {
@@ -13,11 +16,24 @@ public class GameClient {
              BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in))) {
 
             System.out.println("Connected to Game Server");
-            System.out.println(in.readLine());
+
+            // Thread to listen for server messages
+            Thread listener = new Thread(() -> {
+                try {
+                    String serverMessage;
+                    while ((serverMessage = in.readLine()) != null) {
+                        System.out.println("Server: " + serverMessage);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Disconnected from server.");
+                }
+            });
+            listener.start();
+
+            // Main thread handles user input
             String userInputLine;
             while ((userInputLine = userInput.readLine()) != null) {
                 out.println(userInputLine);
-                System.out.println("Server: " + in.readLine());
                 if ("exit".equalsIgnoreCase(userInputLine)) {
                     break;
                 }
