@@ -1,8 +1,10 @@
 package server;
 
-import server.GameLogic;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 class ClientHandler extends Thread {
     private final Socket clientSocket;
@@ -25,8 +27,7 @@ class ClientHandler extends Thread {
                 try {
                     out.println("Enter your guess (secret code) or 'exit' to quit: ");
                     int guess = gameLogic.validateGuess(inputLine);
-                    String prefix = "";
-//                     String prefix = gameLogic.generateTimestampPrefix();
+                    String prefix = gameLogic.generateTimestampPrefix();
 
                     if (secretCode == guess) {
                         out.println(prefix + " Congratulations! You guessed correctly!");
