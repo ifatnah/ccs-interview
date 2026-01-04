@@ -1,7 +1,7 @@
 # Code Breaker Game - Deployment Guide
 
 ## Prerequisites
-- Docker installed on your machine
+- Docker installed (or Java 21 + Maven for local run)
 - Git installed
 
 ## 1. Clone the Repository
@@ -10,26 +10,26 @@ git clone https://github.com/ifatnah/ccs-interview
 cd ccs-interview/JAVA
 ```
 
-## 2. Build the Docker Image
+## 2. Build and Run with Docker
 ```bash
 docker build -t game-server .
-```
-
-## 3. Run the Docker Container
-```bash
 docker run -p 8080:8080 game-server
 ```
 
-## 4. Connect and Play the Game
-Open two separate terminals and run:
+## 3. Connect Two Players
+This is a 2-player game. Open two terminals:
+
+**Player 1:**
 ```bash
-cd JAVA
 java -cp target/classes client.GameClient
 ```
 
-Or use telnet:
+**Player 2 (separate terminal):**
 ```bash
-telnet localhost 8080
+java -cp target/classes client.GameClient
+```
+
+The game begins once both players connect.
 ```
 
 ## Game Rules
